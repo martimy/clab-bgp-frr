@@ -4,8 +4,10 @@ topology:
   defaults:
     kind: linux
     # Choose one of the following two images for the hosts
-    image: wbitt/network-multitool:latest
-    #image: nicolaka/netshoot:latest
+    # depending on which tools you need
+    image: wbitt/network-multitool:alpine-minimal
+    #image: wbitt/network-multitool:alpine-extra
+    # image: nicolaka/netshoot:latest
   nodes:
     spine1:
       image: frrouting/frr
