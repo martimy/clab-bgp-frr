@@ -4,7 +4,7 @@ topology:
   defaults:
     kind: linux
     # Choose one of the following two images for the hosts
-    image: praqma/network-multitool:latest
+    image: wbitt/network-multitool:latest
     #image: nicolaka/netshoot:latest
   nodes:
     spine1:
