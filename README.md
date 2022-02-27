@@ -3,7 +3,7 @@
 This lab example consists of five [FRR](https://frrouting.org/) routers connected in a spine-leaf topology (two spine and three leaf). Each leaf router is connected to two hosts.
 
 
-![Lab Topology](img/bgp_frr.png){ width=8cm}
+![Lab Topology](img/bgp_frr.png)
 
 
 ## Requirements
