@@ -6,9 +6,15 @@ This lab example consists of five [FRR](https://frrouting.org/) routers connecte
 ![Lab Topology](img/bgp_frr.png)
 
 
-## Requirements
+## Requirements and credits
 
 To use this lab, you need to install [containerlab](https://containerlab.srlinux.dev/) (I used the [script method](https://containerlab.srlinux.dev/install/#install-script) Ubuntu 20.04 VM). You also need to have basic familiarity with [Docker](https://www.docker.com/).
+
+This lab uses the following Docker images:
+
+- [frrouting/frr](https://hub.docker.com/r/frrouting/frr)
+- [wbitt/network-multitool](https://hub.docker.com/r/wbitt/network-multitool)
+- [nicolaka/netshoot](https://hub.docker.com/r/nicolaka/netshoot)
 
 
 ## Starting and ending the lab
