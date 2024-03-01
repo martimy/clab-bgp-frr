@@ -110,27 +110,24 @@ sudo clab destroy -t bgp-frr.clab.yml --cleanup
 
 ```
 $ docker exec clab-fdc-spine01 vtysh -c "show bgp summary"
-% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
 
 IPv4 Unicast Summary (VRF default):
 BGP router identifier 10.10.10.11, local AS number 65000 vrf-id 0
 BGP table version 6
-RIB entries 11, using 2024 bytes of memory
-Peers 3, using 2148 KiB of memory
+RIB entries 11, using 1056 bytes of memory
+Peers 3, using 39 KiB of memory
 Peer groups 1, using 64 bytes of memory
 
 Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
-eth1            4      65001        19        20        0    0    0 00:00:39            2        6 N/A
-eth2            4      65002        17        18        0    0    0 00:00:36            2        6 N/A
-eth3            4      65003        18        19        0    0    0 00:00:36            2        6 N/A
+eth1            4      65001        46        47        6    0    0 00:01:57            2        6 N/A
+eth2            4      65002        44        45        6    0    0 00:01:56            2        6 N/A
+eth3            4      65003        44        46        6    0    0 00:01:56            2        6 N/A
 
 Total number of neighbors 3
 ```
 
-
 ```
 $ docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
-% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
 Codes: K - kernel route, C - connected, S - static, R - RIP,
        O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
        T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
@@ -138,14 +135,14 @@ Codes: K - kernel route, C - connected, S - static, R - RIP,
        > - selected route, * - FIB route, q - queued, r - rejected, b - backup
        t - trapped, o - offload failure
 
-B>* 192.168.21.0/24 [20/0] via fe80::a8c1:abff:fe99:55b0, eth2, weight 1, 00:02:58
-  *                        via fe80::a8c1:abff:feab:3957, eth1, weight 1, 00:02:58
-B>* 192.168.22.0/24 [20/0] via fe80::a8c1:abff:fe99:55b0, eth2, weight 1, 00:02:58
-  *                        via fe80::a8c1:abff:feab:3957, eth1, weight 1, 00:02:58
-B>* 192.168.31.0/24 [20/0] via fe80::a8c1:abff:fe99:55b0, eth2, weight 1, 00:02:59
-  *                        via fe80::a8c1:abff:feab:3957, eth1, weight 1, 00:02:59
-B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe99:55b0, eth2, weight 1, 00:02:59
-  *                        via fe80::a8c1:abff:feab:3957, eth1, weight 1, 00:02:59
+B>* 192.168.21.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:02:58
+  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:02:58
+B>* 192.168.22.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:02:58
+  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:02:58
+B>* 192.168.31.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:02:59
+  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:02:59
+B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:02:59
+  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:02:59
 ```
 
 ```
@@ -158,21 +155,21 @@ PING 192.168.31.2 (192.168.31.2) 56(84) bytes of data.
 
 ```
 $ docker exec -it clab-fdc-host11 mtr 192.168.31.2
-My traceroute  [v0.94]
-host11 (192.168.11.2) -> 192.168.31.2                                              2022-02-26T23:27:21+0000
+
+                                                My traceroute  [v0.94]
+host11 (192.168.11.2) -> 192.168.31.2                                                        2024-03-01T20:04:29+0000
 Keys:  Help   Display mode   Restart statistics   Order of fields   quit
-                                                                Packets               Pings
-Host                                                            Loss%   Snt   Last   Avg  Best  Wrst StDev
-1. 192.168.11.1                                                  0.0%    12    0.7   0.3   0.2   0.7   0.1
-2. 10.10.10.12                                                   0.0%    12    0.3   0.5   0.2   0.9   0.3
-3. 10.10.10.23                                                   0.0%    12    0.3   0.3   0.2   0.3   0.0
-4. 192.168.31.2                                                  0.0%    12    0.2   0.2   0.2   0.3   0.0
+                                                                             Packets               Pings
+ Host                                                                      Loss%   Snt   Last   Avg  Best  Wrst StDev
+ 1. 192.168.11.1                                                            0.0%    13    0.1   0.1   0.1   0.3   0.0
+ 2. spine01                                                                 0.0%    13    0.2   0.2   0.1   0.3   0.1
+ 3. 10.10.10.23                                                             0.0%    13    0.2   0.3   0.2   0.5   0.1
+ 4. 192.168.31.2                                                            0.0%    12    0.2   0.2   0.1   0.7   0.2
 ```
 
 
 ```
 $ docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
-% Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'.
 Codes: K - kernel route, C - connected, S - static, R - RIP,
        O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
        T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
@@ -180,12 +177,15 @@ Codes: K - kernel route, C - connected, S - static, R - RIP,
        > - selected route, * - FIB route, q - queued, r - rejected, b - backup
        t - trapped, o - offload failure
 
-B>* 192.168.21.0/24 [20/0] via fe80::a8c1:abff:fe99:55b0, eth2, weight 1, 00:02:44
-B>* 192.168.22.0/24 [20/0] via fe80::a8c1:abff:fe99:55b0, eth2, weight 1, 00:02:44
-B>* 192.168.31.0/24 [20/0] via fe80::a8c1:abff:fe99:55b0, eth2, weight 1, 00:02:44
-B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe99:55b0, eth2, weight 1, 00:02:44
+B>* 192.168.21.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:07:59
+  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:07:59
+B>* 192.168.22.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:07:59
+  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:07:59
+B>* 192.168.31.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:08:00
+  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:08:00
+B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:08:00
+  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:08:00
 ```
-
 
 ```
 $ docker exec -d clab-fdc-host11 iperf3 -s
