@@ -13,32 +13,27 @@ topology:
     spine01:
       image: quay.io/frrouting/frr:9.1.0
       binds:
-        - config/spine1/daemons:/etc/frr/daemons
-        - config/spine1/frr.conf:/etc/frr/frr.conf
+        - config/spine1:/etc/frr
       mgmt-ipv4: 172.20.20.11
     spine02:
       image: quay.io/frrouting/frr:9.1.0
       binds:
-        - config/spine2/daemons:/etc/frr/daemons
-        - config/spine2/frr.conf:/etc/frr/frr.conf
+        - config/spine2:/etc/frr
       mgmt-ipv4: 172.20.20.12
     leaf01:
       image: quay.io/frrouting/frr:9.1.0
       binds:
-        - config/leaf1/daemons:/etc/frr/daemons
-        - config/leaf1/frr.conf:/etc/frr/frr.conf
+        - config/leaf1:/etc/frr
       mgmt-ipv4: 172.20.20.21
     leaf02:
       image: quay.io/frrouting/frr:9.1.0
       binds:
-        - config/leaf2/daemons:/etc/frr/daemons
-        - config/leaf2/frr.conf:/etc/frr/frr.conf
+        - config/leaf2:/etc/frr
       mgmt-ipv4: 172.20.20.22
     leaf03:
       image: quay.io/frrouting/frr:9.1.0
       binds:
-        - config/leaf3/daemons:/etc/frr/daemons
-        - config/leaf3/frr.conf:/etc/frr/frr.conf
+        - config/leaf3:/etc/frr
       mgmt-ipv4: 172.20.20.23
     host11:
       exec:
