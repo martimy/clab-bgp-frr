@@ -1,4 +1,5 @@
-name: bgp_frr
+# This is a data centre topology using FRRouting
+name: fdc
 
 topology:
   defaults:
@@ -9,31 +10,36 @@ topology:
     #image: wbitt/network-multitool:alpine-extra
     # image: nicolaka/netshoot:latest
   nodes:
-    spine1:
-      image: frrouting/frr
+    spine01:
+      image: quay.io/frrouting/frr:9.1.0
       binds:
         - config/spine1/daemons:/etc/frr/daemons
         - config/spine1/frr.conf:/etc/frr/frr.conf
-    spine2:
-      image: frrouting/frr
+      mgmt-ipv4: 172.20.20.11
+    spine02:
+      image: quay.io/frrouting/frr:9.1.0
       binds:
         - config/spine2/daemons:/etc/frr/daemons
         - config/spine2/frr.conf:/etc/frr/frr.conf
-    leaf1:
-      image: frrouting/frr
+      mgmt-ipv4: 172.20.20.12
+    leaf01:
+      image: quay.io/frrouting/frr:9.1.0
       binds:
         - config/leaf1/daemons:/etc/frr/daemons
         - config/leaf1/frr.conf:/etc/frr/frr.conf
-    leaf2:
-      image: frrouting/frr
+      mgmt-ipv4: 172.20.20.21
+    leaf02:
+      image: quay.io/frrouting/frr:9.1.0
       binds:
         - config/leaf2/daemons:/etc/frr/daemons
         - config/leaf2/frr.conf:/etc/frr/frr.conf
-    leaf3:
-      image: frrouting/frr
+      mgmt-ipv4: 172.20.20.22
+    leaf03:
+      image: quay.io/frrouting/frr:9.1.0
       binds:
         - config/leaf3/daemons:/etc/frr/daemons
         - config/leaf3/frr.conf:/etc/frr/frr.conf
+      mgmt-ipv4: 172.20.20.23
     host11:
       exec:
         - ip addr add 192.168.11.2/24 dev eth1
@@ -60,15 +66,15 @@ topology:
         - ip route replace 0/0 via 192.168.32.1
 
   links:
-    - endpoints: ["spine1:eth1", "leaf1:eth1"]
-    - endpoints: ["spine1:eth2", "leaf2:eth1"]
-    - endpoints: ["spine1:eth3", "leaf3:eth1"]
-    - endpoints: ["spine2:eth1", "leaf1:eth2"]
-    - endpoints: ["spine2:eth2", "leaf2:eth2"]
-    - endpoints: ["spine2:eth3", "leaf3:eth2"]
-    - endpoints: ["host11:eth1", "leaf1:eth3"]
-    - endpoints: ["host12:eth1", "leaf1:eth4"]
-    - endpoints: ["host21:eth1", "leaf2:eth3"]
-    - endpoints: ["host22:eth1", "leaf2:eth4"]
-    - endpoints: ["host31:eth1", "leaf3:eth3"]
-    - endpoints: ["host32:eth1", "leaf3:eth4"]
+    - endpoints: ["spine01:eth1", "leaf01:eth1"]
+    - endpoints: ["spine01:eth2", "leaf02:eth1"]
+    - endpoints: ["spine01:eth3", "leaf03:eth1"]
+    - endpoints: ["spine02:eth1", "leaf01:eth2"]
+    - endpoints: ["spine02:eth2", "leaf02:eth2"]
+    - endpoints: ["spine02:eth3", "leaf03:eth2"]
+    - endpoints: ["host11:eth1", "leaf01:eth3"]
+    - endpoints: ["host12:eth1", "leaf01:eth4"]
+    - endpoints: ["host21:eth1", "leaf02:eth3"]
+    - endpoints: ["host22:eth1", "leaf02:eth4"]
+    - endpoints: ["host31:eth1", "leaf03:eth3"]
+    - endpoints: ["host32:eth1", "leaf03:eth4"]
