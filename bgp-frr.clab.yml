@@ -15,50 +15,71 @@ topology:
       binds:
         - config/spine1:/etc/frr
       mgmt-ipv4: 172.20.20.11
+      group: spine
+
     spine02:
       image: quay.io/frrouting/frr:9.1.0
       binds:
         - config/spine2:/etc/frr
       mgmt-ipv4: 172.20.20.12
+      group: spine
+
     leaf01:
       image: quay.io/frrouting/frr:9.1.0
       binds:
         - config/leaf1:/etc/frr
       mgmt-ipv4: 172.20.20.21
+      group: leaf
+
     leaf02:
       image: quay.io/frrouting/frr:9.1.0
       binds:
         - config/leaf2:/etc/frr
       mgmt-ipv4: 172.20.20.22
+      group: leaf
+
     leaf03:
       image: quay.io/frrouting/frr:9.1.0
       binds:
         - config/leaf3:/etc/frr
       mgmt-ipv4: 172.20.20.23
+      group: leaf
+
     host11:
       exec:
         - ip addr add 192.168.11.2/24 dev eth1
         - ip route replace 0/0 via 192.168.11.1
+      group: server
+
     host12:
       exec:
         - ip addr add 192.168.12.2/24 dev eth1
         - ip route replace 0/0 via 192.168.12.1
+      group: server
+
     host21:
       exec:
         - ip addr add 192.168.21.2/24 dev eth1
         - ip route replace 0/0 via 192.168.21.1
+      group: server
+
     host22:
       exec:
         - ip addr add 192.168.22.2/24 dev eth1
         - ip route replace 0/0 via 192.168.22.1
+      group: server
+
     host31:
       exec:
         - ip addr add 192.168.31.2/24 dev eth1
         - ip route replace 0/0 via 192.168.31.1
+      group: server
+
     host32:
       exec:
         - ip addr add 192.168.32.2/24 dev eth1
         - ip route replace 0/0 via 192.168.32.1
+      group: server
 
   links:
     - endpoints: ["spine01:eth1", "leaf01:eth1"]
