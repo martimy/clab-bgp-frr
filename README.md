@@ -210,3 +210,7 @@ Connecting to host 192.168.11.2, port 5201
 
 iperf Done.
 ```
+
+## Author
+
+Created by Maen Artimy - [Personal Blog](http://adhocnode.com)
