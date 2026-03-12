@@ -5,11 +5,6 @@ This lab example consists of five [FRR](https://frrouting.org/) routers connecte
 
 ![Lab Topology](img/topology.png)
 
-## Latest changes:
-
-- Lab name is changed to "fdc"
-- Routers' names are changed
-- Routers are assigned static managment IPv4 addresess
 
 ## Requirements and credits
 
@@ -53,25 +48,25 @@ sudo clab destroy -t bgp-frr.clab.yml --cleanup
 1. Confirm that BGP sessions are established among all peers.  
 
    ```
-   $ docker exec clab-fdc-spine01 vtysh -c "show bgp summary"
+   docker exec clab-fdc-spine01 vtysh -c "show bgp summary"
    ```
 
 2. Show the routes learned from BGP in the routing table. Notices there are two paths to each host.
 
    ```
-   $ docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
+   docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
    ```
 
 3. Ping from any one host to another to verify connectivity.
 
     ```
-    $ docker exec clab-fdc-host11 ping 192.168.31.2
+    docker exec clab-fdc-host11 ping 192.168.31.2
     ```
 
 4. Use MTR/traceroute tools to observe the traffic path. Use MTR between several host pairs to confirm that paths are split between the two spine routers.
 
     ```
-    $ docker exec -it clab-fdc-host11 mtr 192.168.31.2
+    docker exec -it clab-fdc-host11 mtr 192.168.31.2
     ```
 
 5. There are two paths between any pair of servers. To observe how the network reacts in case of a link failure:
@@ -79,7 +74,7 @@ sudo clab destroy -t bgp-frr.clab.yml --cleanup
     b) disable one of the links in the route and observe the traffic resume over another route.
 
     ```
-    $ docker exec -it clab-fdc-spine1 vtysh
+    docker exec -it clab-fdc-spine01 vtysh
     ```
 
 6. To force traffic to avoid one spine router (e.g. before shutting it down for repairs), prepend the path advertised by the router using a route-map. Add the following lines to the configuration:
@@ -97,19 +92,19 @@ sudo clab destroy -t bgp-frr.clab.yml --cleanup
    a) Run iperf3 as a server in one host
 
    ```
-   $ docker exec -d clab-fdc-host11 iperf3 -s
+   docker exec -d clab-fdc-host11 iperf3 -s
    ```
 
    b) Run iperf as a client from another host
 
    ```
-   $ docker exec -it clab-fdc-host31 iperf3 -c 192.168.11.2
+   docker exec -it clab-fdc-host31 iperf3 -c 192.168.11.2
    ```
 
 ## Selected output
 
 ```
-$ docker exec clab-fdc-spine01 vtysh -c "show bgp summary"
+docker exec clab-fdc-spine01 vtysh -c "show bgp summary"
 
 IPv4 Unicast Summary (VRF default):
 BGP router identifier 10.10.10.11, local AS number 65000 vrf-id 0
@@ -127,7 +122,7 @@ Total number of neighbors 3
 ```
 
 ```
-$ docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
+docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
 Codes: K - kernel route, C - connected, S - static, R - RIP,
        O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
        T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
@@ -146,7 +141,7 @@ B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:02:
 ```
 
 ```
-$ docker exec clab-fdc-host11 ping 192.168.31.2
+docker exec clab-fdc-host11 ping 192.168.31.2
 PING 192.168.31.2 (192.168.31.2) 56(84) bytes of data.
 64 bytes from 192.168.31.2: icmp_seq=1 ttl=61 time=0.262 ms
 64 bytes from 192.168.31.2: icmp_seq=2 ttl=61 time=0.174 ms
@@ -154,7 +149,7 @@ PING 192.168.31.2 (192.168.31.2) 56(84) bytes of data.
 ```
 
 ```
-$ docker exec -it clab-fdc-host11 mtr 192.168.31.2
+docker exec -it clab-fdc-host11 mtr 192.168.31.2
 
                                                 My traceroute  [v0.94]
 host11 (192.168.11.2) -> 192.168.31.2                                                        2024-03-01T20:04:29+0000
@@ -169,7 +164,7 @@ Keys:  Help   Display mode   Restart statistics   Order of fields   quit
 
 
 ```
-$ docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
+docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
 Codes: K - kernel route, C - connected, S - static, R - RIP,
        O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
        T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
@@ -188,8 +183,9 @@ B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:08:
 ```
 
 ```
-$ docker exec -d clab-fdc-host11 iperf3 -s
-$ docker exec -it clab-bgp_frr-host32 iperf3 -c 192.168.11.2
+docker exec -d clab-fdc-host11 iperf3 -s
+
+docker exec -it clab-bgp_frr-host32 iperf3 -c 192.168.11.2
 Connecting to host 192.168.11.2, port 5201
 [  5] local 192.168.32.2 port 49164 connected to 192.168.11.2 port 5201
 [ ID] Interval           Transfer     Bitrate         Retr  Cwnd

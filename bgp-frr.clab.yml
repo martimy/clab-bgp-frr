@@ -7,39 +7,40 @@ topology:
     # Choose one of the following two images for the hosts
     # depending on which tools you need
     image: wbitt/network-multitool:alpine-minimal
-    #image: wbitt/network-multitool:alpine-extra
+    # image: wbitt/network-multitool:alpine-extra
     # image: nicolaka/netshoot:latest
+
   nodes:
     spine01:
-      image: quay.io/frrouting/frr:9.1.0
+      image: quay.io/frrouting/frr:10.2.1
       binds:
         - config/spine1:/etc/frr
       mgmt-ipv4: 172.20.20.11
       group: spine
 
     spine02:
-      image: quay.io/frrouting/frr:9.1.0
+      image: quay.io/frrouting/frr:10.2.1
       binds:
         - config/spine2:/etc/frr
       mgmt-ipv4: 172.20.20.12
       group: spine
 
     leaf01:
-      image: quay.io/frrouting/frr:9.1.0
+      image: quay.io/frrouting/frr:10.2.1
       binds:
         - config/leaf1:/etc/frr
       mgmt-ipv4: 172.20.20.21
       group: leaf
 
     leaf02:
-      image: quay.io/frrouting/frr:9.1.0
+      image: quay.io/frrouting/frr:10.2.1
       binds:
         - config/leaf2:/etc/frr
       mgmt-ipv4: 172.20.20.22
       group: leaf
 
     leaf03:
-      image: quay.io/frrouting/frr:9.1.0
+      image: quay.io/frrouting/frr:10.2.1
       binds:
         - config/leaf3:/etc/frr
       mgmt-ipv4: 172.20.20.23
