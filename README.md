@@ -103,88 +103,107 @@ sudo clab destroy -t bgp-frr.clab.yml --cleanup
 
 ## Selected output
 
-```
-docker exec clab-fdc-spine01 vtysh -c "show bgp summary"
 
-IPv4 Unicast Summary (VRF default):
-BGP router identifier 10.10.10.11, local AS number 65000 vrf-id 0
-BGP table version 6
-RIB entries 11, using 1056 bytes of memory
-Peers 3, using 39 KiB of memory
+```bash
+docker exec clab-fdc-spine01 vtysh -c "show bgp summary"
+```
+
+```bash
+IPv4 Unicast Summary:
+BGP router identifier 10.10.10.11, local AS number 65000 VRF default vrf-id 0
+BGP table version 30
+RIB entries 11, using 1408 bytes of memory
+Peers 3, using 50 KiB of memory
 Peer groups 1, using 64 bytes of memory
 
 Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
-eth1            4      65001        46        47        6    0    0 00:01:57            2        6 N/A
-eth2            4      65002        44        45        6    0    0 00:01:56            2        6 N/A
-eth3            4      65003        44        46        6    0    0 00:01:56            2        6 N/A
+eth1            4      65001        32        35       30    0    0 00:00:03            2        6 N/A
+eth2            4      65002        32        36       30    0    0 00:00:03            2        6 N/A
+eth3            4      65003        32        36       30    0    0 00:00:03            2        6 N/A
 
 Total number of neighbors 3
 ```
 
-```
+
+```bash
 docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
-Codes: K - kernel route, C - connected, S - static, R - RIP,
-       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+```
+
+```bash
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
        T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
-       f - OpenFabric,
+       f - OpenFabric, t - Table-Direct,
        > - selected route, * - FIB route, q - queued, r - rejected, b - backup
        t - trapped, o - offload failure
 
-B>* 192.168.21.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:02:58
-  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:02:58
-B>* 192.168.22.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:02:58
-  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:02:58
-B>* 192.168.31.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:02:59
-  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:02:59
-B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:02:59
-  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:02:59
+B>* 192.168.21.0/24 [20/0] via fe80::a8c1:abff:fe1e:3ec1, eth1, weight 1, 00:00:36
+  *                        via fe80::a8c1:abff:fe24:a1b5, eth2, weight 1, 00:00:36
+B>* 192.168.22.0/24 [20/0] via fe80::a8c1:abff:fe1e:3ec1, eth1, weight 1, 00:00:36
+  *                        via fe80::a8c1:abff:fe24:a1b5, eth2, weight 1, 00:00:36
+B>* 192.168.31.0/24 [20/0] via fe80::a8c1:abff:fe1e:3ec1, eth1, weight 1, 00:00:36
+  *                        via fe80::a8c1:abff:fe24:a1b5, eth2, weight 1, 00:00:36
+B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe1e:3ec1, eth1, weight 1, 00:00:36
+  *                        via fe80::a8c1:abff:fe24:a1b5, eth2, weight 1, 00:00:36
 ```
 
-```
+
+```bash
 docker exec clab-fdc-host11 ping 192.168.31.2
+```
+
+```bash
 PING 192.168.31.2 (192.168.31.2) 56(84) bytes of data.
-64 bytes from 192.168.31.2: icmp_seq=1 ttl=61 time=0.262 ms
-64 bytes from 192.168.31.2: icmp_seq=2 ttl=61 time=0.174 ms
-...
+64 bytes from 192.168.31.2: icmp_seq=1 ttl=61 time=0.275 ms
+64 bytes from 192.168.31.2: icmp_seq=2 ttl=61 time=0.105 ms
+64 bytes from 192.168.31.2: icmp_seq=3 ttl=61 time=0.424 ms
+64 bytes from 192.168.31.2: icmp_seq=4 ttl=61 time=0.112 ms
+64 bytes from 192.168.31.2: icmp_seq=5 ttl=61 time=0.105 ms
 ```
 
-```
+```bash
 docker exec -it clab-fdc-host11 mtr 192.168.31.2
+```
 
-                                                My traceroute  [v0.94]
-host11 (192.168.11.2) -> 192.168.31.2                                                        2024-03-01T20:04:29+0000
+```bash
+                             My traceroute  [v0.95]
+host11 (192.168.11.2) -> 192.168.31.2 (192.168.31.2)    2026-03-12T01:20:14+0000
 Keys:  Help   Display mode   Restart statistics   Order of fields   quit
-                                                                             Packets               Pings
- Host                                                                      Loss%   Snt   Last   Avg  Best  Wrst StDev
- 1. 192.168.11.1                                                            0.0%    13    0.1   0.1   0.1   0.3   0.0
- 2. spine01                                                                 0.0%    13    0.2   0.2   0.1   0.3   0.1
- 3. 10.10.10.23                                                             0.0%    13    0.2   0.3   0.2   0.5   0.1
- 4. 192.168.31.2                                                            0.0%    12    0.2   0.2   0.1   0.7   0.2
+                                        Packets               Pings
+ Host                                 Loss%   Snt   Last   Avg  Best  Wrst StDev
+ 1. 192.168.11.1                       0.0%    20    0.1   0.2   0.1   0.7   0.2
+ 2. spine01                            0.0%    19    0.1   0.1   0.1   0.5   0.1
+ 3. 10.10.10.23                        0.0%    19    0.1   0.1   0.1   0.4   0.1
+ 4. 192.168.31.2                       0.0%    19    0.1   0.1   0.1   0.2   0.0
 ```
 
-
-```
+```bash
 docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
-Codes: K - kernel route, C - connected, S - static, R - RIP,
-       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+```
+
+```bash
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
        T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
-       f - OpenFabric,
+       f - OpenFabric, t - Table-Direct,
        > - selected route, * - FIB route, q - queued, r - rejected, b - backup
        t - trapped, o - offload failure
 
-B>* 192.168.21.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:07:59
-  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:07:59
-B>* 192.168.22.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:07:59
-  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:07:59
-B>* 192.168.31.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:08:00
-  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:08:00
-B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe2f:bafd, eth1, weight 1, 00:08:00
-  *                        via fe80::a8c1:abff:feff:aa5d, eth2, weight 1, 00:08:00
+B>* 192.168.21.0/24 [20/0] via fe80::a8c1:abff:fe1e:3ec1, eth1, weight 1, 00:01:58
+  *                        via fe80::a8c1:abff:fe24:a1b5, eth2, weight 1, 00:01:58
+B>* 192.168.22.0/24 [20/0] via fe80::a8c1:abff:fe1e:3ec1, eth1, weight 1, 00:01:58
+  *                        via fe80::a8c1:abff:fe24:a1b5, eth2, weight 1, 00:01:58
+B>* 192.168.31.0/24 [20/0] via fe80::a8c1:abff:fe1e:3ec1, eth1, weight 1, 00:01:58
+  *                        via fe80::a8c1:abff:fe24:a1b5, eth2, weight 1, 00:01:58
+B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe1e:3ec1, eth1, weight 1, 00:01:58
+  *                        via fe80::a8c1:abff:fe24:a1b5, eth2, weight 1, 00:01:58
 ```
 
-```
+```bash
 docker exec -d clab-fdc-host11 iperf3 -s
+```
 
+```bash
 docker exec -it clab-bgp_frr-host32 iperf3 -c 192.168.11.2
 Connecting to host 192.168.11.2, port 5201
 [  5] local 192.168.32.2 port 49164 connected to 192.168.11.2 port 5201
