@@ -108,7 +108,7 @@ sudo clab destroy -t bgp-frr.clab.yml --cleanup
 docker exec clab-fdc-spine01 vtysh -c "show bgp summary"
 ```
 
-```bash
+```
 IPv4 Unicast Summary:
 BGP router identifier 10.10.10.11, local AS number 65000 VRF default vrf-id 0
 BGP table version 30
@@ -129,7 +129,7 @@ Total number of neighbors 3
 docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
 ```
 
-```bash
+```
 Codes: K - kernel route, C - connected, L - local, S - static,
        R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
        T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
@@ -152,7 +152,7 @@ B>* 192.168.32.0/24 [20/0] via fe80::a8c1:abff:fe1e:3ec1, eth1, weight 1, 00:00:
 docker exec clab-fdc-host11 ping 192.168.31.2
 ```
 
-```bash
+```
 PING 192.168.31.2 (192.168.31.2) 56(84) bytes of data.
 64 bytes from 192.168.31.2: icmp_seq=1 ttl=61 time=0.275 ms
 64 bytes from 192.168.31.2: icmp_seq=2 ttl=61 time=0.105 ms
@@ -165,7 +165,7 @@ PING 192.168.31.2 (192.168.31.2) 56(84) bytes of data.
 docker exec -it clab-fdc-host11 mtr 192.168.31.2
 ```
 
-```bash
+```
                              My traceroute  [v0.95]
 host11 (192.168.11.2) -> 192.168.31.2 (192.168.31.2)    2026-03-12T01:20:14+0000
 Keys:  Help   Display mode   Restart statistics   Order of fields   quit
@@ -181,7 +181,7 @@ Keys:  Help   Display mode   Restart statistics   Order of fields   quit
 docker exec clab-fdc-leaf01 vtysh -c "show ip route bgp"
 ```
 
-```bash
+```
 Codes: K - kernel route, C - connected, L - local, S - static,
        R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
        T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
@@ -205,6 +205,9 @@ docker exec -d clab-fdc-host11 iperf3 -s
 
 ```bash
 docker exec -it clab-bgp_frr-host32 iperf3 -c 192.168.11.2
+```
+
+```
 Connecting to host 192.168.11.2, port 5201
 [  5] local 192.168.32.2 port 49164 connected to 192.168.11.2 port 5201
 [ ID] Interval           Transfer     Bitrate         Retr  Cwnd
