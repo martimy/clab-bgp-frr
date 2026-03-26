@@ -1,0 +1,17 @@
+{
+  "image": "ghcr.io/srl-labs/containerlab/devcontainer-dind-slim:latest",
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "8gb",
+    "storage": "32gb"
+  },
+  "postCreateCommand": "clab version && echo '✅ Containerlab is ready! Your BGP lab is in bgp-frr.clab.yml'",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.vscode-yaml",
+        "ms-vscode-remote.remote-containers"
+      ]
+    }
+  }
+}

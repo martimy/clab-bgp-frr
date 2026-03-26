@@ -1,5 +1,8 @@
 # Spine-Leaf Data Centre Topology using FRRouting
 
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/martimy/clab-bgp-frr?quickstart=1)
+
 This lab example consists of five [FRR](https://frrouting.org/) routers connected in a spine-leaf topology (two spine and three leaf). Each leaf router is connected to two hosts.
 
 
@@ -16,6 +19,12 @@ This lab uses the following Docker images:
 - [wbitt/network-multitool](https://hub.docker.com/r/wbitt/network-multitool)
 - [nicolaka/netshoot](https://hub.docker.com/r/nicolaka/netshoot)
 
+
+### Easiest Way: Run the Lab in the Cloud (No Installation Needed)
+
+1. Click the button above → GitHub Codespaces will open a full VS Code environment in your browser.
+2. Wait 1–2 minutes for the container to start (first time only).
+3. Follow the steps in the next sectiion.
 
 ## Starting and ending the lab
 
